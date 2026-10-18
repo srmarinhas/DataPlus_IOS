@@ -1,0 +1,28 @@
+name: Build DataPlus IPA
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Compile for iPhone
+        run: xcodebuild -project DataPlus.xcodeproj -scheme DataPlus -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p package/Payload
+          cp -R build/Build/Products/Release-iphoneos/DataPlus.app package/Payload/
+          cd package
+          zip -qr ../DataPlus-unsigned.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DataPlus-unsigned-IPA
+          path: DataPlus-unsigned.ipa
+          retention-days: 3
