@@ -1,0 +1,25 @@
+name: DataPlus
+options:
+  deploymentTarget:
+    iOS: '16.0'
+targets:
+  DataPlus:
+    type: application
+    platform: iOS
+    sources: [App]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: pt.oficinaplus.dataplus.personal
+        SWIFT_VERSION: '5.0'
+        TARGETED_DEVICE_FAMILY: '1'
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: DataPlus
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: '1.0'
+        CODE_SIGNING_ALLOWED: NO
+schemes:
+  DataPlus:
+    build:
+      targets:
+        DataPlus: all
